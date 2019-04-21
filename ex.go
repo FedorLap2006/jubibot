@@ -1,33 +1,30 @@
-package main
-
-
-
+package jubibot
 
 import (
 	dsgo "github.com/bwmarrin/discordgo"
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
-	strs "strings"
-//	"fmt"
 )
 
 const tok string = "***********************************************************"
 const bpr string = "!"
 const bpf string = ""
+
 var botID string
-var isPersonal bool = true
 var botUser *dsgo.User
+
 func main() {
-	dg,err := dsgo.New("Bot " + tok)
+	dg, err := dsgo.New("Bot " + tok)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	dg.AddHandler(msgHandler)
-	
-	u,err := dg.User("@me")
+
+	u, err := dg.User("@me")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -51,22 +48,22 @@ func main() {
 	<-sc
 }
 
-func msgHandler(s * dsgo.Session,m *dsgo.MessageCreate) {
+func msgHandler(s *dsgo.Session, m *dsgo.MessageCreate) {
 
 	if m.Author.ID == botID {
-		return 
-	}
-	
-	if !strs.HasPrefix(m.Content,bpr) {
 		return
 	}
-	if !strs.HasSuffix(m.Content,bpf) {
+
+	if !strings.HasPrefix(m.Content, bpr) {
 		return
 	}
-	
-	msg := m.Content[len(bpr):len(m.Content)-len(bpf)]
+	if !strings.HasSuffix(m.Content, bpf) {
+		return
+	}
+
+	msg := m.Content[len(bpr) : len(m.Content)-len(bpf)]
 	log.Println(msg)
 	if msg == "" {
-		_,_ = s.ChannelMessageSend(m.ChannelID, "thank you for watching")
+		_, _ = s.ChannelMessageSend(m.ChannelID, "thank you for watching")
 	}
 }
