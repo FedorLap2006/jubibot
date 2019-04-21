@@ -1,36 +1,30 @@
 package jubibot
 
-
 import (
 	dsgo "github.com/bwmarrin/discordgo"
 	"log"
-	"os"
-	"os/signal"
-	"syscall"
-	strs "strings"
-//	"fmt"
 )
 
-type Handler func(s *dsgo.Session,msg *dsgo.MessageCreate);
+type Handler func(s *dsgo.Session, msg *dsgo.MessageCreate)
 
 type Bot struct {
-	dg *dsgo.Session
-	buser *sgo.User
+	dg    *dsgo.Session
+	buser *dsgo.User
 	botID string
-	msgh Handler
+	msgh  Handler
 	token string
-	suf string
-	pref string
+	suf   string
+	pref  string
 }
 
 func (this *Bot) init() {
-	if ( msgh == nil ) {
+	if this.msgh == nil {
 		return
 	}
-	this.dg = dsgo.New("Bot " + this.token)
-	dg.AddHandler(msgh)
+	this.dg, _ = dsgo.New("Bot " + this.token)
+	this.dg.AddHandler(this.msgh)
 
-	u,err := dg.User("@me")
+	u, err := this.dg.User("@me")
 
 	if err != nil {
 		log.Fatal(err)
@@ -38,11 +32,11 @@ func (this *Bot) init() {
 
 	this.buser = u
 
-	botID = u.ID
+	this.botID = u.ID
 
 }
 func (this *Bot) run() {
-	err := dg.Open()
+	err := this.dg.Open()
 
 	if err != nil {
 		log.Fatal(err)
@@ -51,6 +45,5 @@ func (this *Bot) run() {
 }
 
 func (this *Bot) end() {
-	dg.Close()
+	this.dg.Close()
 }
-
