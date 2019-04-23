@@ -1,4 +1,4 @@
-module github.com/FedorLap2006/jubilant-dbot
+module github.com/FedorLap2006/jubibot
 
 go 1.12
 
